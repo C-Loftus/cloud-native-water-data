@@ -44,12 +44,12 @@ class: text-center
 
 # Who actually has this data?
 
-<div v-click class="text-lg muted max-w-2xl mx-auto">
+<div v-click class="text-base muted max-w-2xl mx-auto">
   There's no single U.S. water data agency. The federal government, states, utility companies, and universities each have valuable but fragmented datasets.
 </div>
 
-<figure class="mt-6">
-<svg viewBox="0 0 640 400" role="img" aria-label="Federal agencies, states, community organizations, academia, and utilities form a mesh, each needing to coordinate directly with every other, with no central water data agency in the middle" style="width:100%;max-width:480px;height:auto;margin:0 auto;display:block;color:var(--wtr-text)">
+<figure class="mt-3">
+<svg viewBox="0 0 640 400" role="img" aria-label="Federal agencies, states, community organizations, academia, and utilities form a mesh, each needing to coordinate directly with every other, with no central water data agency in the middle" style="width:100%;max-width:640px;height:auto;margin:0 auto;display:block;color:var(--wtr-text)">
   <g stroke="var(--wtr-muted)" stroke-opacity="0.3" stroke-width="1.3">
     <line x1="320" y1="60" x2="463" y2="164"/>
     <line x1="320" y1="60" x2="408" y2="331"/>
@@ -65,16 +65,39 @@ class: text-center
   <circle cx="320" cy="210" r="54" fill-opacity="0.92" stroke-width="2" stroke-dasharray="5 5" style="fill: var(--wtr-deep); stroke: var(--wtr-sand)"/>
   <text x="320" y="223" text-anchor="middle" style="font-size:38px;fill: var(--wtr-sand)">?</text>
   <g style="font-size:12.5px;fill:var(--wtr-text)" text-anchor="middle">
-    <rect x="250" y="38" width="140" height="44" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
-    <text x="320" y="65">Federal agencies</text>
-    <rect x="393" y="142" width="140" height="44" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
-    <text x="463" y="169">States</text>
-    <rect x="338" y="309" width="140" height="44" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
-    <text x="408" y="336">Community orgs</text>
-    <rect x="162" y="309" width="140" height="44" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
-    <text x="232" y="336">Academia</text>
-    <rect x="107" y="142" width="140" height="44" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
-    <text x="177" y="169">Utilities</text>
+    <rect x="250" y="33" width="140" height="54" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <text x="320" y="79">Federal agencies</text>
+    <rect x="393" y="137" width="140" height="54" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <text x="463" y="183">States</text>
+    <rect x="338" y="304" width="140" height="54" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <text x="408" y="350">Community orgs</text>
+    <rect x="162" y="304" width="140" height="54" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <text x="232" y="350">Academia</text>
+    <rect x="107" y="137" width="140" height="54" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <text x="177" y="183">Utilities</text>
+  </g>
+  <g fill="none" stroke="var(--wtr-sand)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(320,48)" aria-hidden="true">
+      <path d="M-9,7 H9 M-9,7 V0 L0,-7 L9,0 V7 M-6,7 V0 M-2,7 V0 M2,7 V0 M6,7 V0"/>
+    </g>
+    <g transform="translate(463,152)" aria-hidden="true">
+      <path d="M0,-9 C4.4,-9 8,-5.6 8,-1.5 C8,4 0,10 0,10 C0,10 -8,4 -8,-1.5 C-8,-5.6 -4.4,-9 0,-9 Z"/>
+      <circle cx="0" cy="-1.5" r="2.4" fill="var(--wtr-sand)" stroke="none"/>
+    </g>
+    <g transform="translate(408,319)" aria-hidden="true">
+      <circle cx="-4" cy="-5" r="3"/>
+      <circle cx="4.5" cy="-3.5" r="3"/>
+      <path d="M-9,8 C-9,2.5 -6,-0.5 -4,-0.5 C-2,-0.5 0,1.5 0,5"/>
+      <path d="M0,8 C0,3 2,0.5 4.5,0.5 C7.5,0.5 9,3.5 9,8"/>
+    </g>
+    <g transform="translate(232,319)" aria-hidden="true">
+      <path d="M-10,-2 L0,-7 L10,-2 L0,3 Z"/>
+      <path d="M-5,0 V5 C-5,7.2 5,7.2 5,5 V0"/>
+      <line x1="10" y1="-2" x2="10" y2="4"/>
+    </g>
+    <g transform="translate(177,152)" aria-hidden="true">
+      <path d="M0,-9 C4,-4 7.5,0.3 7.5,4 C7.5,8.4 4.1,11 0,11 C-4.1,11 -7.5,8.4 -7.5,4 C-7.5,0.3 -4,-4 0,-9 Z"/>
+    </g>
   </g>
 </svg>
 </figure>
@@ -100,113 +123,79 @@ class: text-center
 # The usual way to put data on the web
 
 <figure class="mt-6">
-<svg viewBox="0 0 900 180" role="img" aria-label="A pipeline from source data through an ETL job, PostGIS, an API server, a tile server, and a CDN cache. Five of the six stages must run continuously for years; only the source data is captured once." style="width:100%;height:auto;color:var(--wtr-text)">
+<svg viewBox="0 0 900 225" role="img" aria-label="A pipeline from source data through PostGIS, an API server, and a CDN cache. All but the source data must run continuously for years, and the database carries the most upkeep — maintenance and connection pooling." style="width:100%;max-width:760px;height:auto;margin:0 auto;display:block;color:var(--wtr-text)">
   <defs>
-    <marker id="pipe-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <marker id="pipe-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
     </marker>
   </defs>
-  <g stroke="currentColor" stroke-width="1.5" opacity="0.85" marker-end="url(#pipe-arrow-head)">
-    <line x1="142" y1="60" x2="182" y2="60"/>
-    <line x1="286" y1="60" x2="326" y2="60"/>
-    <line x1="430" y1="60" x2="470" y2="60"/>
-    <line x1="574" y1="60" x2="614" y2="60"/>
-    <line x1="718" y1="60" x2="758" y2="60"/>
+  <g stroke="currentColor" stroke-width="1.6" opacity="0.85" marker-end="url(#pipe-arrow-head)">
+    <line x1="210" y1="80" x2="257" y2="80"/>
+    <line x1="427" y1="80" x2="474" y2="80"/>
+    <line x1="644" y1="80" x2="691" y2="80"/>
   </g>
-  <g fill="rgba(11,79,119,0.7)" stroke="rgba(165,227,255,0.4)" stroke-width="1.2">
-    <rect x="38" y="25" width="104" height="70" rx="10"/>
-    <rect x="182" y="25" width="104" height="70" rx="10"/>
-    <rect x="326" y="25" width="104" height="70" rx="10"/>
-    <rect x="470" y="25" width="104" height="70" rx="10"/>
-    <rect x="614" y="25" width="104" height="70" rx="10"/>
-    <rect x="758" y="25" width="104" height="70" rx="10"/>
+  <g stroke-width="1.4">
+    <rect x="40" y="25" width="170" height="110" rx="14" fill="rgba(11,79,119,0.7)" stroke="rgba(165,227,255,0.4)"/>
+    <rect x="257" y="25" width="170" height="110" rx="14" fill="rgba(11,79,119,0.92)" stroke="var(--wtr-accent)" stroke-width="2.4"/>
+    <rect x="474" y="25" width="170" height="110" rx="14" fill="rgba(11,79,119,0.7)" stroke="rgba(165,227,255,0.4)"/>
+    <rect x="691" y="25" width="170" height="110" rx="14" fill="rgba(11,79,119,0.7)" stroke="rgba(165,227,255,0.4)"/>
   </g>
-  <g transform="translate(90,45)" fill="none" stroke="currentColor" stroke-width="1.4">
+  <g transform="translate(125,55) scale(1.6)" fill="none" stroke="currentColor" stroke-width="1.4">
     <rect x="-8" y="-9" width="16" height="18" rx="1.5"/>
     <path d="M4,-9 v5 h5"/>
     <line x1="-4" y1="-2" x2="4" y2="-2"/>
     <line x1="-4" y1="2" x2="4" y2="2"/>
     <line x1="-4" y1="6" x2="2" y2="6"/>
   </g>
-  <g transform="translate(234,45)" fill="none" stroke="currentColor" stroke-width="1.4">
-    <circle r="6"/>
-    <circle r="1.8" fill="currentColor" stroke="none"/>
-    <rect x="-1.1" y="-9.5" width="2.2" height="4" fill="currentColor" stroke="none"/>
-    <rect x="-1.1" y="-9.5" width="2.2" height="4" fill="currentColor" stroke="none" transform="rotate(60)"/>
-    <rect x="-1.1" y="-9.5" width="2.2" height="4" fill="currentColor" stroke="none" transform="rotate(120)"/>
-    <rect x="-1.1" y="-9.5" width="2.2" height="4" fill="currentColor" stroke="none" transform="rotate(180)"/>
-    <rect x="-1.1" y="-9.5" width="2.2" height="4" fill="currentColor" stroke="none" transform="rotate(240)"/>
-    <rect x="-1.1" y="-9.5" width="2.2" height="4" fill="currentColor" stroke="none" transform="rotate(300)"/>
-  </g>
-  <g transform="translate(378,45)" fill="none" stroke="currentColor" stroke-width="1.4">
+  <g transform="translate(342,55) scale(1.6)" fill="none" stroke="var(--wtr-accent)" stroke-width="1.5">
     <ellipse cx="0" cy="-7" rx="8" ry="3"/>
     <path d="M-8,-7 v10 a8,3 0 0 0 16,0 v-10"/>
     <path d="M-8,-2 a8,3 0 0 0 16,0" opacity="0.6"/>
   </g>
-  <g transform="translate(522,45)" fill="none" stroke="currentColor" stroke-width="1.4">
+  <g transform="translate(559,55) scale(1.6)" fill="none" stroke="currentColor" stroke-width="1.4">
     <rect x="-8" y="-9" width="16" height="18" rx="1.5"/>
     <line x1="-8" y1="-3" x2="8" y2="-3"/>
     <line x1="-8" y1="3" x2="8" y2="3"/>
     <circle cx="5" cy="-6" r="1" fill="currentColor" stroke="none"/>
     <circle cx="5" cy="0" r="1" fill="currentColor" stroke="none"/>
   </g>
-  <g transform="translate(666,45)" fill="none" stroke="currentColor" stroke-width="1.4">
-    <rect x="-8" y="-8" width="7" height="7"/>
-    <rect x="1" y="-8" width="7" height="7"/>
-    <rect x="-8" y="1" width="7" height="7"/>
-    <rect x="1" y="1" width="7" height="7"/>
-  </g>
-  <g transform="translate(810,45)" fill="none" stroke="currentColor" stroke-width="1.3">
+  <g transform="translate(776,55) scale(1.6)" fill="none" stroke="currentColor" stroke-width="1.3">
     <circle cx="-4" cy="-2" r="4"/>
     <circle cx="2" cy="-4" r="5"/>
     <circle cx="6" cy="-1" r="3.5"/>
     <rect x="-8" y="-2" width="16" height="6" rx="3"/>
   </g>
-  <g style="font-size:12px;fill:var(--wtr-text)" text-anchor="middle">
-    <text x="90" y="74">Source</text>
-    <text x="90" y="87">data</text>
-    <text x="234" y="74">ETL</text>
-    <text x="234" y="87">job</text>
-    <text x="378" y="80">PostGIS</text>
-    <text x="522" y="74">API</text>
-    <text x="522" y="87">server</text>
-    <text x="666" y="74">Tile</text>
-    <text x="666" y="87">server</text>
-    <text x="810" y="74">CDN /</text>
-    <text x="810" y="87">cache</text>
+  <g style="font-size:15px;fill:var(--wtr-text)" text-anchor="middle">
+    <text x="125" y="105">Source</text>
+    <text x="125" y="122">data</text>
+    <text x="342" y="113" style="font-size:16px;font-weight:700;fill:var(--wtr-accent)">PostGIS</text>
+    <text x="559" y="105">API</text>
+    <text x="559" y="122">server</text>
+    <text x="776" y="105">CDN /</text>
+    <text x="776" y="122">cache</text>
   </g>
-  <line x1="234" y1="95" x2="234" y2="115" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
-  <line x1="378" y1="95" x2="378" y2="115" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
-  <line x1="522" y1="95" x2="522" y2="115" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
-  <line x1="666" y1="95" x2="666" y2="115" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
-  <line x1="810" y1="95" x2="810" y2="115" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
-  <rect x="182" y="115" width="680" height="6" rx="3" fill-opacity="0.55" style="fill: var(--wtr-accent)"/>
-  <polygon points="862,112 872,118 862,124" opacity="0.55" style="fill: var(--wtr-accent)"/>
-  <text x="182" y="136" text-anchor="start" style="font-size:12px;fill: var(--wtr-accent)">today</text>
-  <text x="862" y="136" text-anchor="end" style="font-size:12px;fill: var(--wtr-accent)">10 years later</text>
-  <text x="522" y="158" text-anchor="middle" style="font-size:12.5px;fill: var(--wtr-muted)">must stay up — patched, paid for, paged</text>
+  <line x1="342" y1="135" x2="342" y2="158" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
+  <line x1="559" y1="135" x2="559" y2="158" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
+  <line x1="776" y1="135" x2="776" y2="158" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
+  <rect x="210" y="158" width="641" height="8" rx="4" fill-opacity="0.55" style="fill: var(--wtr-accent)"/>
+  <polygon points="861,155 872,162 861,169" opacity="0.55" style="fill: var(--wtr-accent)"/>
+  <text x="210" y="185" text-anchor="start" style="font-size:14px;fill: var(--wtr-accent)">today</text>
+  <text x="861" y="185" text-anchor="end" style="font-size:14px;fill: var(--wtr-accent)">10 years later</text>
+  <text x="535" y="210" text-anchor="middle" style="font-size:14.5px;fill: var(--wtr-muted)">the database must be patched, pooled, and paged the whole way</text>
 </svg>
-<figcaption class="text-sm muted mt-2 text-center">Five of six stages must run non-stop for years — only the source data is a one-time thing.</figcaption>
 </figure>
 
-<div v-click class="mt-10 grid grid-cols-3 gap-4 text-sm">
-  <div class="card">
-    <div class="eyebrow mb-1">Runs forever</div>
-    Patching, upgrades, certs, backups, connection pools
+<div v-click class="mt-10 grid grid-cols-2 gap-4 text-sm max-w-3xl mx-auto">
+  <div class="card card-accent">
+    <div class="eyebrow mb-1">Database maintenance</div>
+    Patching, major-version upgrades, certs, backups — someone owns this for the life of the dataset
   </div>
-  <div class="card">
-    <div class="eyebrow mb-1">Costs forever</div>
-    Idle compute billed at 3am for a dataset nobody queried
-  </div>
-  <div class="card">
-    <div class="eyebrow mb-1">Fails loudly</div>
-    One OOM and every downstream map is blank
+  <div class="card card-accent">
+    <div class="eyebrow mb-1">Connection pooling</div>
+    Every API replica opens connections against it; sizing and exhausting the pool becomes your job too
   </div>
 </div>
 
-<div v-click class="mt-8 text-lg">
-  Five moving parts to answer one question: <em>what's near this point?</em>
-</div>
 
 
 ---
