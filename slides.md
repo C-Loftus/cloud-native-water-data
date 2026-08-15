@@ -23,16 +23,6 @@ class: text-center
 
 # Improving Water Data Access with Cloud Native Geospatial Formats
 
-<p class="mt-6 text-xl muted">
-  Serving national-scale hydrography from a bucket — no API to maintain
-</p>
-
-<div class="mt-14 flex justify-center gap-3 text-sm">
-  <span class="card px-4 py-2">FlatGeobuf</span>
-  <span class="card px-4 py-2">GeoParquet</span>
-  <span class="card px-4 py-2">HTTP range requests</span>
-</div>
-
 <div class="abs-bl m-8 text-left text-sm muted">
   Colton Loftus · Internet of Water / Geoconnex<br>
   Funded by the U.S. Geological Survey
@@ -52,7 +42,49 @@ layout: center
 class: text-center
 ---
 
-# The problem usually isn't spatial efficiency
+# Who actually has this data?
+
+<div v-click class="text-lg muted max-w-2xl mx-auto">
+  There's no single U.S. water data agency. The federal government, states, utility companies, and universities each have valuable but fragmented datasets.
+</div>
+
+<figure class="mt-6">
+<svg viewBox="0 0 640 400" role="img" aria-label="Federal agencies, states, community organizations, academia, and utilities form a mesh, each needing to coordinate directly with every other, with no central water data agency in the middle" style="width:100%;max-width:480px;height:auto;margin:0 auto;display:block;color:var(--wtr-text)">
+  <g stroke="var(--wtr-muted)" stroke-opacity="0.3" stroke-width="1.3">
+    <line x1="320" y1="60" x2="463" y2="164"/>
+    <line x1="320" y1="60" x2="408" y2="331"/>
+    <line x1="320" y1="60" x2="232" y2="331"/>
+    <line x1="320" y1="60" x2="177" y2="164"/>
+    <line x1="463" y1="164" x2="408" y2="331"/>
+    <line x1="463" y1="164" x2="232" y2="331"/>
+    <line x1="463" y1="164" x2="177" y2="164"/>
+    <line x1="408" y1="331" x2="232" y2="331"/>
+    <line x1="408" y1="331" x2="177" y2="164"/>
+    <line x1="232" y1="331" x2="177" y2="164"/>
+  </g>
+  <circle cx="320" cy="210" r="54" fill-opacity="0.92" stroke-width="2" stroke-dasharray="5 5" style="fill: var(--wtr-deep); stroke: var(--wtr-sand)"/>
+  <text x="320" y="223" text-anchor="middle" style="font-size:38px;fill: var(--wtr-sand)">?</text>
+  <g style="font-size:12.5px;fill:var(--wtr-text)" text-anchor="middle">
+    <rect x="250" y="38" width="140" height="44" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <text x="320" y="65">Federal agencies</text>
+    <rect x="393" y="142" width="140" height="44" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <text x="463" y="169">States</text>
+    <rect x="338" y="309" width="140" height="44" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <text x="408" y="336">Community orgs</text>
+    <rect x="162" y="309" width="140" height="44" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <text x="232" y="336">Academia</text>
+    <rect x="107" y="142" width="140" height="44" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <text x="177" y="169">Utilities</text>
+  </g>
+</svg>
+</figure>
+
+---
+layout: center
+class: text-center
+---
+
+# The problem is more fundammental than scale
 
 <div v-click class="mt-8 text-4xl font-bold" style="color: var(--wtr-accent)">
   It's infrastructure.
@@ -63,29 +95,99 @@ class: text-center
   to keep a database, an API, and a tile server alive for the next ten years.
 </div>
 
-<!--
-The framing for the whole talk. We are not here to shave bytes off a geometry encoding.
-We are here because staffing a 24/7 API is the thing that actually kills data publishing
-at small agencies and research groups.
--->
-
 ---
 
 # The usual way to put data on the web
 
-<div class="mt-8 flex items-stretch justify-between gap-2">
-  <div class="pipe-box">Source<br>data</div>
-  <div class="pipe-arrow">→</div>
-  <div class="pipe-box">ETL<br>job</div>
-  <div class="pipe-arrow">→</div>
-  <div class="pipe-box">PostGIS</div>
-  <div class="pipe-arrow">→</div>
-  <div class="pipe-box">API<br>server</div>
-  <div class="pipe-arrow">→</div>
-  <div class="pipe-box">Tile<br>server</div>
-  <div class="pipe-arrow">→</div>
-  <div class="pipe-box">CDN /<br>cache</div>
-</div>
+<figure class="mt-6">
+<svg viewBox="0 0 900 180" role="img" aria-label="A pipeline from source data through an ETL job, PostGIS, an API server, a tile server, and a CDN cache. Five of the six stages must run continuously for years; only the source data is captured once." style="width:100%;height:auto;color:var(--wtr-text)">
+  <defs>
+    <marker id="pipe-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <g stroke="currentColor" stroke-width="1.5" opacity="0.85" marker-end="url(#pipe-arrow-head)">
+    <line x1="142" y1="60" x2="182" y2="60"/>
+    <line x1="286" y1="60" x2="326" y2="60"/>
+    <line x1="430" y1="60" x2="470" y2="60"/>
+    <line x1="574" y1="60" x2="614" y2="60"/>
+    <line x1="718" y1="60" x2="758" y2="60"/>
+  </g>
+  <g fill="rgba(11,79,119,0.7)" stroke="rgba(165,227,255,0.4)" stroke-width="1.2">
+    <rect x="38" y="25" width="104" height="70" rx="10"/>
+    <rect x="182" y="25" width="104" height="70" rx="10"/>
+    <rect x="326" y="25" width="104" height="70" rx="10"/>
+    <rect x="470" y="25" width="104" height="70" rx="10"/>
+    <rect x="614" y="25" width="104" height="70" rx="10"/>
+    <rect x="758" y="25" width="104" height="70" rx="10"/>
+  </g>
+  <g transform="translate(90,45)" fill="none" stroke="currentColor" stroke-width="1.4">
+    <rect x="-8" y="-9" width="16" height="18" rx="1.5"/>
+    <path d="M4,-9 v5 h5"/>
+    <line x1="-4" y1="-2" x2="4" y2="-2"/>
+    <line x1="-4" y1="2" x2="4" y2="2"/>
+    <line x1="-4" y1="6" x2="2" y2="6"/>
+  </g>
+  <g transform="translate(234,45)" fill="none" stroke="currentColor" stroke-width="1.4">
+    <circle r="6"/>
+    <circle r="1.8" fill="currentColor" stroke="none"/>
+    <rect x="-1.1" y="-9.5" width="2.2" height="4" fill="currentColor" stroke="none"/>
+    <rect x="-1.1" y="-9.5" width="2.2" height="4" fill="currentColor" stroke="none" transform="rotate(60)"/>
+    <rect x="-1.1" y="-9.5" width="2.2" height="4" fill="currentColor" stroke="none" transform="rotate(120)"/>
+    <rect x="-1.1" y="-9.5" width="2.2" height="4" fill="currentColor" stroke="none" transform="rotate(180)"/>
+    <rect x="-1.1" y="-9.5" width="2.2" height="4" fill="currentColor" stroke="none" transform="rotate(240)"/>
+    <rect x="-1.1" y="-9.5" width="2.2" height="4" fill="currentColor" stroke="none" transform="rotate(300)"/>
+  </g>
+  <g transform="translate(378,45)" fill="none" stroke="currentColor" stroke-width="1.4">
+    <ellipse cx="0" cy="-7" rx="8" ry="3"/>
+    <path d="M-8,-7 v10 a8,3 0 0 0 16,0 v-10"/>
+    <path d="M-8,-2 a8,3 0 0 0 16,0" opacity="0.6"/>
+  </g>
+  <g transform="translate(522,45)" fill="none" stroke="currentColor" stroke-width="1.4">
+    <rect x="-8" y="-9" width="16" height="18" rx="1.5"/>
+    <line x1="-8" y1="-3" x2="8" y2="-3"/>
+    <line x1="-8" y1="3" x2="8" y2="3"/>
+    <circle cx="5" cy="-6" r="1" fill="currentColor" stroke="none"/>
+    <circle cx="5" cy="0" r="1" fill="currentColor" stroke="none"/>
+  </g>
+  <g transform="translate(666,45)" fill="none" stroke="currentColor" stroke-width="1.4">
+    <rect x="-8" y="-8" width="7" height="7"/>
+    <rect x="1" y="-8" width="7" height="7"/>
+    <rect x="-8" y="1" width="7" height="7"/>
+    <rect x="1" y="1" width="7" height="7"/>
+  </g>
+  <g transform="translate(810,45)" fill="none" stroke="currentColor" stroke-width="1.3">
+    <circle cx="-4" cy="-2" r="4"/>
+    <circle cx="2" cy="-4" r="5"/>
+    <circle cx="6" cy="-1" r="3.5"/>
+    <rect x="-8" y="-2" width="16" height="6" rx="3"/>
+  </g>
+  <g style="font-size:12px;fill:var(--wtr-text)" text-anchor="middle">
+    <text x="90" y="74">Source</text>
+    <text x="90" y="87">data</text>
+    <text x="234" y="74">ETL</text>
+    <text x="234" y="87">job</text>
+    <text x="378" y="80">PostGIS</text>
+    <text x="522" y="74">API</text>
+    <text x="522" y="87">server</text>
+    <text x="666" y="74">Tile</text>
+    <text x="666" y="87">server</text>
+    <text x="810" y="74">CDN /</text>
+    <text x="810" y="87">cache</text>
+  </g>
+  <line x1="234" y1="95" x2="234" y2="115" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
+  <line x1="378" y1="95" x2="378" y2="115" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
+  <line x1="522" y1="95" x2="522" y2="115" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
+  <line x1="666" y1="95" x2="666" y2="115" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
+  <line x1="810" y1="95" x2="810" y2="115" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
+  <rect x="182" y="115" width="680" height="6" rx="3" fill-opacity="0.55" style="fill: var(--wtr-accent)"/>
+  <polygon points="862,112 872,118 862,124" opacity="0.55" style="fill: var(--wtr-accent)"/>
+  <text x="182" y="136" text-anchor="start" style="font-size:12px;fill: var(--wtr-accent)">today</text>
+  <text x="862" y="136" text-anchor="end" style="font-size:12px;fill: var(--wtr-accent)">10 years later</text>
+  <text x="522" y="158" text-anchor="middle" style="font-size:12.5px;fill: var(--wtr-muted)">must stay up — patched, paid for, paged</text>
+</svg>
+<figcaption class="text-sm muted mt-2 text-center">Five of six stages must run non-stop for years — only the source data is a one-time thing.</figcaption>
+</figure>
 
 <div v-click class="mt-10 grid grid-cols-3 gap-4 text-sm">
   <div class="card">
@@ -106,10 +208,6 @@ at small agencies and research groups.
   Five moving parts to answer one question: <em>what's near this point?</em>
 </div>
 
-<!--
-Every box here is a thing with a version number, a security advisory feed, and an on-call
-rotation. For a lot of teams this is the reason the data never ships at all.
--->
 
 ---
 
@@ -142,12 +240,6 @@ The map, the API, and the download page now disagree about how many stream reach
 <div v-click class="mt-8 text-center text-xl">
   Every derived copy is a <span v-mark.underline.cyan="3">synchronization bug</span> waiting to happen.
 </div>
-
-<!--
-This is the second half of the pain. Not just "maintaining infra is expensive" but
-"the workarounds for not having infra rot silently."
--->
-
 ---
 layout: center
 class: text-center
@@ -172,11 +264,6 @@ class: text-center
 <div v-click class="mt-10 text-lg muted">
   No database. No API process. No autoscaling group. Just a bucket and a CDN.
 </div>
-
-<!--
-This is the pivot. Cloud native geospatial formats move the index from the server into
-the file, which means the "server" can be dumb storage.
--->
 
 ---
 
@@ -223,12 +310,6 @@ The spatial index is the part you would otherwise have paid a database to hold.
 
 </div>
 
-<!--
-Credit where due: FlatGeobuf is Björn Harrtell's work. The key design decision is the
-packed Hilbert R-tree at the front of the file — that's what makes range requests useful
-instead of just "downloading a big file slowly."
--->
-
 ---
 
 # The same file, two very different consumers
@@ -264,15 +345,10 @@ gdf = gpd.read_file(
   There is no "web version" to keep in sync, because there is no second copy.
 </div>
 
-<!--
-This is the punchline of the FlatGeobuf half. Internally our microservices read the exact
-same object the frontend reads. Update the file, everything updates. Nothing drifts,
-because there's nothing to drift from.
--->
 
 ---
 
-# Geoconnex, in practice
+# Geoconnex, in practice: one file, not one copy per service
 
 <div class="grid grid-cols-3 gap-4 mt-8">
   <div class="card">
@@ -285,38 +361,31 @@ because there's nothing to drift from.
   </div>
   <div class="card card-accent">
     <div class="stat-num">0</div>
-    <div class="text-sm mt-1">Databases or API servers provisioned to serve them</div>
+    <div class="text-sm mt-1">Database connections to open, pool, or exhaust</div>
   </div>
 </div>
 
 <div class="grid grid-cols-2 gap-6 mt-10">
 
 <div v-click>
-<div class="eyebrow mb-2">Who reads it</div>
+<div class="eyebrow mb-2">Internal microservices read the same file</div>
 
-- The Geoconnex reference-feature microservices
-- The public map at geoconnex.us
-- Anyone with `ogr2ogr` and the URL
+- Every Geoconnex reference-feature microservice fetches from the same `.fgb`, not a private copy or its own DB
+- No connection pools, no query load to capacity-plan around — just HTTP range requests
+- The public map and `ogr2ogr` on someone's laptop hit the exact same bytes
 
 </div>
 
 <div v-click>
-<div class="eyebrow mb-2">What we deleted</div>
+<div class="eyebrow mb-2">Reducing duplication</div>
 
-- A PostGIS instance and its backup schedule
-- A tiling pipeline and its cache invalidation
-- The "which export is current?" conversation
-
-</div>
+- One canonical file instead of a database per service, each with its own drift
+- Scaling is copying: another CDN edge, another replica — no schema, no migrations
+- Update the file once and every consumer, internal or external, sees it
 
 </div>
 
-<!--
-Geoconnex is USGS-funded, part of the Internet of Water. Reference features are the
-persistent identifiers for hydrologic features — catchments and mainstems are the backbone.
-
-[Confirm the exact catchment count and file size against the current build before presenting.]
--->
+</div>
 
 ---
 layout: full
@@ -338,16 +407,6 @@ class: p-0 overflow-hidden
     allow="fullscreen"
   />
 </div>
-
-<!--
-Demo beats slides. Point at the network tab: pan the map, watch a handful of 206 Partial
-Content responses come back instead of a multi-gigabyte download. Nothing is running
-server-side — that's a static bucket behind a CDN.
-
-Fallback if the venue wifi is bad: open the viewer in a browser tab beforehand and keep
-a screen recording ready.
--->
-
 ---
 
 # GeoParquet: when the question is analytical
@@ -386,10 +445,6 @@ hundred megabytes as Parquet, and you only ever pull a slice of it.
 
 </div>
 
-<!--
-FlatGeobuf answers "give me the features here." GeoParquet answers "compute something
-over a lot of features." Different questions, same hosting story.
--->
 
 ---
 
@@ -417,10 +472,6 @@ LIMIT 25;
   <div v-click class="card card-accent">Result: a national query answered with a few megabytes of range requests</div>
 </div>
 
-<!--
-Worth saying out loud: this is ordinary SQL against a URL. No connection string, no
-credentials, no server to scale when a class of 200 students hits it at once.
--->
 
 ---
 
@@ -445,10 +496,6 @@ credentials, no server to scale when a class of 200 students hits it at once.
   </div>
 </div>
 
-<!--
-Don't oversell GeoParquet for rendering — it has no spatial index in the FlatGeobuf sense,
-and the bbox-covering approach is newer and less universally supported.
--->
 
 ---
 
@@ -484,10 +531,6 @@ and the bbox-covering approach is newer and less universally supported.
   The trade is real — you give up query flexibility and buy back <strong>an operations budget</strong>.
 </div>
 
-<!--
-Be honest here. Lightning talks that only show upside don't get believed. The write path
-is the big caveat and it's exactly why this works so well for reference data.
--->
 
 ---
 
@@ -519,10 +562,6 @@ is the big caveat and it's exactly why this works so well for reference data.
   Less data to maintain, and a better experience at the other end of the wire.
 </div>
 
-<!--
-Tie it back to the opening claim: we didn't win by making the data smaller. We won by
-deleting infrastructure.
--->
 
 ---
 layout: center
@@ -555,8 +594,3 @@ class: text-center
 <div class="mt-14 muted">
   Thanks — and thanks to the U.S. Geological Survey for funding this work.
 </div>
-
-<!--
-Questions. Likely ones: how big are the files, how often do you rebuild them, does this
-work behind auth, and what about very high feature counts in one viewport.
--->
