@@ -10,6 +10,11 @@
   --cgs-rayleigh: #86c1e2;  /* Rayleigh Blue */
   --cgs-cumulus: #c9dee8;   /* Cumulus Gray */
 
+  /* A lightened tint of Continental Green. Brand green is only ~2.5:1 against
+     the dark stage, which is too low for small labels, so annotation text and
+     leader lines use this instead while the shapes they point at stay on-brand. */
+  --cgs-green-light: #7fd4c6;
+
   /* --- CGS secondary palette --- */
   --cgs-yellow: #f9c609;    /* Prairie Yellow */
   --cgs-cream: #fefcf5;     /* Cream */
@@ -127,6 +132,53 @@ html {
   color: var(--cgs-green);
 }
 
+/* Content slides get a short Continental Green rule under the title so each one
+   reads as a section rather than a floating line of text. Centered and
+   full-bleed slides opt out — the rule only makes sense against a left edge. */
+.slidev-layout.default h1::after,
+.slidev-layout.cover h1::after {
+  content: '';
+  display: block;
+  width: 3.25rem;
+  height: 3px;
+  margin-top: 0.6rem;
+  border-radius: 2px;
+  background: var(--cgs-green);
+}
+
+.slidev-layout.text-center h1::after {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Slides whose title already sits against a strong visual anchor don't need the
+   rule as well — opt out with `class: no-title-rule` in the slide frontmatter. */
+.slidev-layout.no-title-rule h1::after {
+  content: none;
+}
+
+/* Click-revealed content rises into place instead of popping. Slidev already
+   animates the opacity; this adds the travel and a matching easing curve. */
+.slidev-vclick-target {
+  transition:
+    opacity 320ms cubic-bezier(0.22, 0.68, 0.32, 1),
+    transform 320ms cubic-bezier(0.22, 0.68, 0.32, 1);
+}
+
+.slidev-vclick-hidden {
+  transform: translateY(10px);
+}
+
+@media print, (prefers-reduced-motion: reduce) {
+  .slidev-vclick-target {
+    transition: none;
+  }
+
+  .slidev-vclick-hidden {
+    transform: none;
+  }
+}
+
 /* --- Reusable helpers used throughout slides.md --------------- */
 
 .card {
@@ -135,12 +187,26 @@ html {
   background: rgba(22, 76, 107, 0.55);
   backdrop-filter: blur(2px);
   padding: 0.9rem 1rem;
+  line-height: 1.5;
+  /* A one-pixel top highlight reads as a light source above the stage, which is
+     what separates the card from the background without a heavier border. */
+  box-shadow: inset 0 1px 0 rgba(201, 222, 232, 0.1);
 }
 
 .card-accent {
   border-color: rgba(70, 171, 157, 0.65);
   background: rgba(29, 95, 134, 0.55);
-  box-shadow: 0 0 30px -10px rgba(70, 171, 157, 0.9);
+  box-shadow:
+    inset 0 1px 0 rgba(201, 222, 232, 0.12),
+    0 0 30px -10px rgba(70, 171, 157, 0.9);
+}
+
+/* A card deliberately pushed back — the "before" column of a comparison, where
+   the eye should land on the "after" instead. */
+.card.muted {
+  background: rgba(14, 49, 73, 0.42);
+  border-color: rgba(201, 222, 232, 0.16);
+  box-shadow: none;
 }
 
 /* A recessed panel that groups a set of cards. It sits a shade darker than the
@@ -212,11 +278,22 @@ html {
   stroke-linejoin: round;
 }
 
-/* Format logos sitting beside a heading — both marks render in their own brand
-   colors. */
+/* Format logos sitting beside a heading. Both marks are drawn for light
+   backgrounds — FlatGeobuf's is near-black navy (#1b1464), which all but
+   disappears on the dark stage — so they sit on a Cream tile instead of being
+   recolored. That keeps each logo in its own brand colors at full contrast.
+
+   A fixed square tile with `object-fit: contain` keeps the two marks the same
+   visual weight even though FlatGeobuf's is portrait and Parquet's is square. */
 .format-logo {
-  height: 2.6rem;
-  width: auto;
+  width: 3.7rem;
+  height: 3.7rem;
+  box-sizing: border-box;
+  object-fit: contain;
+  padding: 0.5rem;
+  border-radius: 0.55rem;
+  background: var(--cgs-cream);
+  box-shadow: 0 2px 12px -5px rgba(0, 0, 0, 0.55);
 }
 
 .eyebrow {
@@ -244,16 +321,56 @@ html {
   border: 1px solid rgba(201, 222, 232, 0.3);
   border-radius: 0.6rem;
   background: rgba(22, 76, 107, 0.6);
-  padding: 0.55rem 0.7rem;
-  font-size: 0.8rem;
+  box-shadow: inset 0 1px 0 rgba(201, 222, 232, 0.1);
+  padding: 0.65rem 0.85rem;
+  font-size: 0.9rem;
   text-align: center;
   min-width: 6.6rem;
 }
 
+/* Continental Green, matching the "after" cards it points at, so the eye follows
+   the direction of the change rather than reading the arrow as neutral chrome. */
 .pipe-arrow {
-  color: var(--wtr-accent-text);
-  opacity: 0.9;
+  color: var(--cgs-green);
   align-self: center;
+}
+
+/* A registry / destination row: icon on the left, label beside it. Used where a
+   list of targets reads better as a stack of chips than as a bulleted list. */
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  border: 1px solid rgba(201, 222, 232, 0.26);
+  border-radius: 0.6rem;
+  background: rgba(22, 76, 107, 0.55);
+  box-shadow: inset 0 1px 0 rgba(201, 222, 232, 0.1);
+  padding: 0.5rem 0.85rem;
+  font-size: 0.95rem;
+}
+
+.chip svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: none;
+  fill: none;
+  stroke: var(--cgs-green);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* An inline code-ish label used on a diagram arrow. */
+.arrow-label {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+  color: var(--wtr-accent-text);
+  border: 1px solid rgba(134, 193, 226, 0.35);
+  border-radius: 0.4rem;
+  background: rgba(14, 49, 73, 0.6);
+  padding: 0.2rem 0.5rem;
+  white-space: nowrap;
 }
 
 /* Keep code blocks legible on the dark CGS background */

@@ -113,6 +113,8 @@ class: text-center statement
 </div>
 
 ---
+class: no-title-rule
+---
 
 # PostGIS is great, but often isn't the right fit for small organizations or ad-hoc projects
 
@@ -168,13 +170,6 @@ class: text-center statement
     <text x="776" y="105">CDN /</text>
     <text x="776" y="122">cache</text>
   </g>
-  <line x1="342" y1="135" x2="342" y2="158" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
-  <line x1="559" y1="135" x2="559" y2="158" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
-  <line x1="776" y1="135" x2="776" y2="158" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
-  <rect x="210" y="158" width="641" height="8" rx="4" fill-opacity="0.55" style="fill: var(--wtr-accent-text)"/>
-  <polygon points="861,155 872,162 861,169" opacity="0.55" style="fill: var(--wtr-accent-text)"/>
-  <text x="210" y="185" text-anchor="start" style="font-size:14px;fill: var(--wtr-accent-text)">today</text>
-  <text x="861" y="185" text-anchor="end" style="font-size:14px;fill: var(--wtr-accent-text)">10 years later</text>
 </svg>
 </figure>
 
@@ -249,23 +244,77 @@ class: text-center
 
 # What if the file *is* the API?
 
-<div class="mt-10 flex items-center justify-center gap-4">
-  <div class="pipe-box" style="min-width: 9rem">Browser</div>
-  <div class="pipe-arrow text-sm">Range: bytes=<br>4096-65535 →</div>
-  <div class="pipe-box card-accent" style="min-width: 9rem">
-    One file<br><span class="muted text-xs">S3 / R2 / GCS / Azure Blob</span>
+<figure class="mt-8">
+<svg viewBox="0 0 900 175" role="img" aria-label="A single file laid out as a row of byte blocks on object storage. The client reads the index at the head of the file, then issues range requests for only the two blocks of matching features; the rest of the file is never downloaded." style="width:100%;max-width:800px;height:auto;margin:0 auto;display:block">
+  <defs>
+    <marker id="fetch-arrow-index" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--cgs-green-light)"/>
+    </marker>
+    <marker id="fetch-arrow-feature" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--cgs-yellow)"/>
+    </marker>
+  </defs>
+
+  <text x="50" y="18" style="font-size:14px;fill:var(--cgs-green-light)">1 · read the index</text>
+  <text x="570" y="18" text-anchor="middle" style="font-size:14px;fill:var(--cgs-yellow)">2 · fetch only the matching byte ranges</text>
+
+  <g stroke-width="1.8" fill="none">
+    <line x1="70" y1="28" x2="70" y2="58" stroke="var(--cgs-green-light)" marker-end="url(#fetch-arrow-index)"/>
+    <!-- One bracket forking from the label down to the two shaded blocks, so the
+         callout reads as covering exactly those and nothing in between. -->
+    <path d="M570 26 V38" stroke="var(--cgs-yellow)"/>
+    <path d="M450 38 H690" stroke="var(--cgs-yellow)"/>
+    <line x1="450" y1="38" x2="450" y2="58" stroke="var(--cgs-yellow)" marker-end="url(#fetch-arrow-feature)"/>
+    <line x1="690" y1="38" x2="690" y2="58" stroke="var(--cgs-yellow)" marker-end="url(#fetch-arrow-feature)"/>
+  </g>
+
+  <!-- The file: 20 equal byte blocks. Only the filled ones cross the wire. -->
+  <g>
+    <rect x="50" y="64" width="800" height="56" rx="9" fill="rgba(22,76,107,0.55)" stroke="rgba(201,222,232,0.3)"/>
+    <rect x="50" y="64" width="40" height="56" rx="9" fill="rgba(70,171,157,0.8)"/>
+    <rect x="410" y="64" width="80" height="56" fill="rgba(249,198,9,0.85)"/>
+    <rect x="650" y="64" width="80" height="56" fill="rgba(249,198,9,0.85)"/>
+    <g stroke="rgba(201,222,232,0.22)" stroke-width="1">
+      <path d="M90 64V120 M130 64V120 M170 64V120 M210 64V120 M250 64V120 M290 64V120
+               M330 64V120 M370 64V120 M410 64V120 M450 64V120 M490 64V120 M530 64V120
+               M570 64V120 M610 64V120 M650 64V120 M690 64V120 M730 64V120 M770 64V120 M810 64V120"/>
+    </g>
+    <rect x="50" y="64" width="800" height="56" rx="9" fill="none" stroke="rgba(201,222,232,0.4)" stroke-width="1.4"/>
+  </g>
+
+  <g stroke="rgba(201,222,232,0.35)" stroke-width="1">
+    <path d="M50 130 V138 M850 130 V138 M50 134 H850"/>
+  </g>
+  <text x="450" y="158" text-anchor="middle" style="font-size:14.5px;fill:var(--wtr-muted)">one file on object storage — everything unshaded is skipped</text>
+</svg>
+</figure>
+
+<div v-click class="mt-6 grid grid-cols-3 gap-4 max-w-4xl mx-auto text-left text-base">
+  <div class="card flex items-start gap-3">
+    <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M6.8 18.5 A4.6 4.6 0 0 1 7.2 9.3 A6.1 6.1 0 0 1 18.4 10.4 A4.1 4.1 0 0 1 17.7 18.5 Z"/>
+    </svg>
+    <div>Object storage already speaks <strong>HTTP range requests</strong></div>
+  </div>
+  <div class="card flex items-start gap-3">
+    <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="3" y="4" width="18" height="16" rx="2"/>
+      <rect x="6" y="7" width="6.5" height="5" rx="1"/>
+      <rect x="15" y="7" width="3.5" height="3.5" rx="1"/>
+      <rect x="6" y="14.5" width="9.5" height="3" rx="1"/>
+    </svg>
+    <div>The format puts a <strong>spatial index in the file</strong></div>
+  </div>
+  <div class="card flex items-start gap-3">
+    <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3 V13.5"/>
+      <path d="M8 9.8 L12 13.8 L16 9.8"/>
+      <path d="M4 17 v2.4 a1.6 1.6 0 0 0 1.6 1.6 h12.8 a1.6 1.6 0 0 0 1.6-1.6 V17"/>
+    </svg>
+    <div>So the client fetches <strong>only the bytes it needs</strong></div>
   </div>
 </div>
 
-<div v-click class="mt-12 grid grid-cols-3 gap-4 text-md max-w-4xl mx-auto">
-  <div class="card">Object storage already speaks <strong>HTTP range requests</strong></div>
-  <div class="card">The format puts a <strong>spatial index in the file</strong></div>
-  <div class="card">So the client fetches <strong>only the bytes it needs</strong></div>
-</div>
-
-<div v-click class="mt-10 text-xl muted">
-  No database. No API process. Just a bucket and a CDN.
-</div>
 
 ---
 class: text-center
@@ -281,7 +330,7 @@ Both just a file on object storage.
 
 <div>
   <div class="flex items-center justify-center gap-3">
-    <img src="/fgb.svg" alt="" class="format-logo" style="height: 3.1rem" />
+    <img src="/fgb.svg" alt="" class="format-logo" />
     <h2 class="!m-0">FlatGeobuf</h2>
   </div>
   <div class="card card-accent mt-5 text-left">
@@ -307,14 +356,14 @@ Both just a file on object storage.
 </div>
 
 ---
+layout: center
 class: text-center
 ---
 
-# What worked for us
-
-<div class="flex items-center justify-center gap-4 mt-6">
-  <img src="/fgb.svg" alt="" class="format-logo" style="height: 3.6rem" />
+<div class="flex items-center justify-center gap-5">
+  <h1 class="!m-0 !text-3xl">What worked for us:</h1>
   <span class="punchline">FlatGeobuf</span>
+  <img src="/fgb.svg" alt="" class="format-logo" style="width: 4.3rem; height: 4.3rem" />
 </div>
 
 <div class="grid grid-cols-2 gap-5 mt-12 max-w-4xl mx-auto text-left">
@@ -396,15 +445,15 @@ hideLogo: true
   <div class="eyebrow">After</div>
 
   <div class="card muted">Database connection issues during high-throughput pipelines</div>
-  <div class="pipe-arrow text-center text-2xl">→</div>
+  <div class="pipe-arrow text-center text-3xl">→</div>
   <div class="card card-accent">Easy scaling on S3</div>
 
   <div class="card muted">Manual exports that easily became out of sync</div>
-  <div class="pipe-arrow text-center text-2xl">→</div>
+  <div class="pipe-arrow text-center text-3xl">→</div>
   <div class="card card-accent">One URL providing the dataset's source of truth</div>
 
   <div class="card muted">Opaque versioning in the database, or added on the fly into the API response</div>
-  <div class="pipe-arrow text-center text-2xl">→</div>
+  <div class="pipe-arrow text-center text-3xl">→</div>
   <div class="card card-accent">Provenance metadata contained directly in the FlatGeobuf header</div>
 
 </div>
@@ -413,30 +462,72 @@ hideLogo: true
 # Next Step: utilizing OCI artifacts
 
 <div class="text-lg mt-2 max-w-4xl">
-Container registries already store, version, and mirror arbitrary blobs — so a dataset can be
-pushed as an OCI artifact and inherit all of it.
+OCI Artifacts are already utilized in the ML space for tracking models. 
+<br>
+We can do the same for geospatial reference data.
 </div>
 
-<div class="mt-8 flex items-center justify-center gap-5">
-  <div class="pipe-box card-accent" style="min-width: 11rem">
-    catchments.fgb<br><span class="muted text-xs"></span>
+<div class="mt-8 flex items-center justify-center gap-6">
+
+  <div class="card flex items-center gap-3 text-left">
+    <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 2.6 L20.5 7 v10 L12 21.4 L3.5 17 V7 Z"/>
+      <path d="M3.5 7 L12 11.4 L20.5 7"/>
+      <path d="M12 11.4 V21.4"/>
+    </svg>
+    <div>
+      <div>catchments.fgb</div>
+      <div class="muted text-xs">+ tags, digest, annotations</div>
+    </div>
   </div>
-  <div class="pipe-arrow text-sm">oras push →</div>
-  <div class="flex flex-col gap-2">
-    <div class="pipe-box" style="min-width: 15rem">Docker Hub</div>
-    <div class="pipe-box" style="min-width: 15rem">GitHub Container Registry</div>
-    <div class="pipe-box" style="min-width: 15rem">Google Artifact Registry</div>
+
+  <div class="flex flex-col items-center gap-2">
+    <span class="arrow-label">oras push</span>
+    <svg viewBox="0 0 64 12" style="width:4.5rem;height:auto" aria-hidden="true">
+      <path d="M0 6 H55" stroke="var(--wtr-accent-text)" stroke-width="1.7" fill="none"/>
+      <path d="M49 1.5 L57 6 L49 10.5 Z" fill="var(--wtr-accent-text)"/>
+    </svg>
   </div>
+
+  <div class="flex flex-col gap-2 text-left">
+    <div class="chip">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L21 7.5 L12 12 L3 7.5 Z"/><path d="M3 12 L12 16.5 L21 12"/><path d="M3 16.5 L12 21 L21 16.5"/></svg>
+      <span>Docker Hub</span>
+    </div>
+    <div class="chip">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L21 7.5 L12 12 L3 7.5 Z"/><path d="M3 12 L12 16.5 L21 12"/><path d="M3 16.5 L12 21 L21 16.5"/></svg>
+      <span>GitHub Container Registry</span>
+    </div>
+    <div class="chip">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L21 7.5 L12 12 L3 7.5 Z"/><path d="M3 12 L12 16.5 L21 12"/><path d="M3 16.5 L12 21 L21 16.5"/></svg>
+      <span>Google Artifact Registry</span>
+    </div>
+  </div>
+
 </div>
 
-<div class="mt-8 grid grid-cols-2 gap-5 max-w-4xl mx-auto text-sm">
-  <div class="card">
-    <div class="eyebrow mb-1">Versioning comes for free</div>
-    Tags, digests, and annotations live in the manifest — provenance travels with the data
+<div class="mt-8 grid grid-cols-2 gap-5 max-w-4xl mx-auto text-sm text-left">
+  <div class="card flex items-start gap-3">
+    <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M3 12.6 V4.6 A1.6 1.6 0 0 1 4.6 3 h8 L21 11.4 a1.6 1.6 0 0 1 0 2.2 l-7.4 7.4 a1.6 1.6 0 0 1-2.2 0 Z"/>
+      <circle cx="7.6" cy="7.6" r="1.4"/>
+    </svg>
+    <div>
+      <div class="eyebrow mb-1">Versioning comes for free</div>
+      Tags, digests, and annotations live in the manifest — provenance travels with the data
+    </div>
   </div>
-  <div class="card card-accent">
-    <div class="eyebrow mb-1">No single service to depend on</div>
-    The same artifact pushes to any registry, so no one provider owns the dataset
+  <div class="card card-accent flex items-start gap-3">
+    <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="5" r="2.4"/>
+      <circle cx="5" cy="18" r="2.4"/>
+      <circle cx="19" cy="18" r="2.4"/>
+      <path d="M10.5 7.1 L6.5 15.9 M13.5 7.1 L17.5 15.9 M7.4 18 H16.6"/>
+    </svg>
+    <div>
+      <div class="eyebrow mb-1">No single service to depend on</div>
+      The same artifact pushes to any registry, so no one provider owns the dataset
+    </div>
   </div>
 </div>
 
