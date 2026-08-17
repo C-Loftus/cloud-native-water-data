@@ -335,7 +335,7 @@ Both just a file on object storage.
   </div>
   <div class="card card-accent mt-5 text-left">
     <div class="eyebrow mb-2">Packed Hilbert R-tree</div>
-    A packed hilbert R-tree index in the head of the file - optimized for fast bbox queries
+    A packed hilbert R-tree index in the head of the file, optimized for fast bbox queries
   </div>
 </div>
 
