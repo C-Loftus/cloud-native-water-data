@@ -334,8 +334,8 @@ Both just a file on object storage.
     <h2 class="!m-0">FlatGeobuf</h2>
   </div>
   <div class="card card-accent mt-5 text-left">
-    <div class="eyebrow mb-2">Packed Hilbert R-tree</div>
-    A packed hilbert R-tree index in the head of the file, optimized for fast bbox queries
+    <div class="eyebrow mb-2">R-tree</div>
+    Contains a packed hilbert R-tree index optimized for fast bbox queries. No B-tree index for other property filters
   </div>
 </div>
 
@@ -346,7 +346,7 @@ Both just a file on object storage.
   </div>
   <div class="card card-accent mt-5 text-left">
     <div class="eyebrow mb-2">Row group metadata</div>
-    Min/max statistics on <em>any</em> column. No R-Tree index for geometry, but not always needed.
+    Min/max statistics on <em>any</em> column. No R-Tree index for geometry, but row group metadata is often sufficient.
   </div>
   <div class="card card-warn mt-4 mx-auto text-sm text-left" style="width: fit-content">
     Harder to optimize, but more flexible for analytics
@@ -369,12 +369,11 @@ class: text-center
 <div class="grid grid-cols-2 gap-5 mt-12 max-w-4xl mx-auto text-left">
   <div class="card">
     <div class="eyebrow mb-1">Fewer dependencies for readers</div>
-    A small JS library or GDAL — far less to pull in than the Parquet stack
+    A small JS or Rust library, far less to pull in than the entire Arrow/Parquet stack
   </div>
   <div class="card">
     <div class="eyebrow mb-1">Less to tune</div>
-    No row group sizing or compression settings to get right, and the packed Hilbert
-    R-tree is hard to beat
+    Packed Hilbert R-tree provides fast bbox queries with sane defaults
   </div>
 </div>
 
@@ -446,7 +445,7 @@ hideLogo: true
 
   <div class="card muted">Database connection issues during high-throughput pipelines</div>
   <div class="pipe-arrow text-center text-3xl">→</div>
-  <div class="card card-accent">Easy scaling on S3</div>
+  <div class="card card-accent">Easy scaling on a blob store</div>
 
   <div class="card muted">Manual exports that easily became out of sync</div>
   <div class="pipe-arrow text-center text-3xl">→</div>
