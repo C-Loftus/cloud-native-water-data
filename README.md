@@ -24,7 +24,9 @@ pnpm run dev      # http://localhost:3030
 
 ## Notes
 
-- Slide 9 embeds <https://colton.place/flatgeobuf-viewer/> in an iframe, so it needs network
+- The live-demo slide embeds <https://colton.place/flatgeobuf-viewer/> in an iframe, deep-linked via
+  `remote_url` + `bbox` to `reference_catchments_and_flowlines.fgb` in the
+  `national-hydrologic-geospatial-fabric-reference-hydrofabric` GCS bucket. It needs network
   access while presenting — worth having a screen recording as a conference-wifi fallback.
 - `global-bottom.vue` renders *underneath* the slide, so `style.css` deliberately keeps
   `.slidev-layout` transparent and paints the background gradient on `.slidev-slide-content`

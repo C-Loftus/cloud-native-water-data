@@ -8,6 +8,7 @@ info: |
   uses FlatGeobuf and GeoParquet to serve national-scale hydrography straight out of
   object storage — no database, no API server, no derived subsets to keep in sync.
 author: Colton Loftus
+favicon: /cgs-logo.png
 colorSchema: dark
 highlighter: shiki
 lineNumbers: false
@@ -19,33 +20,22 @@ duration: 10min
 class: text-center
 ---
 
-<div class="eyebrow mb-4">Lightning talk</div>
-
 # Improving Water Data Access with Cloud Native Geospatial Formats
 
-<div class="abs-bl m-8 text-left text-sm muted">
-  Colton Loftus · Internet of Water / Geoconnex<br>
-  Funded by the U.S. Geological Survey
+<div class="abs-bl m-8 text-left text-sm muted byline">
+  Colton Loftus <br> Center for Geospatial Solutions <br>
+  <a href="https://cgsearth.org" target="_blank">cgsearth.org</a>
 </div>
 
-<div class="abs-br m-8 text-sm muted">
-  <a href="https://geoconnex.us" target="_blank">geoconnex.us</a>
-</div>
-
-<!--
-Hi — I'm Colton. Ten minutes on a boring-sounding claim: the hardest part of publishing
-geospatial data on the web usually has nothing to do with geospatial.
--->
-
----
+<!-- ---
 layout: center
 class: text-center
----
+--- -->
 
-# Who actually has this data?
+<!-- # Environmental Data is Highly Fragmented
 
-<div v-click class="text-base muted max-w-2xl mx-auto">
-  There's no single U.S. water data agency. The federal government, states, utility companies, and universities each have valuable but fragmented datasets.
+<div v-click class="max-w-2xl mx-auto">
+  <b>Example</b>: no single U.S. water data agency. We need federal government, states, utility companies, and universities to all contribute
 </div>
 
 <figure class="mt-3">
@@ -65,15 +55,15 @@ class: text-center
   <circle cx="320" cy="210" r="54" fill-opacity="0.92" stroke-width="2" stroke-dasharray="5 5" style="fill: var(--wtr-deep); stroke: var(--wtr-sand)"/>
   <text x="320" y="223" text-anchor="middle" style="font-size:38px;fill: var(--wtr-sand)">?</text>
   <g style="font-size:12.5px;fill:var(--wtr-text)" text-anchor="middle">
-    <rect x="250" y="33" width="140" height="54" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <rect x="250" y="33" width="140" height="54" rx="8" fill="rgba(22,76,107,0.85)" stroke="rgba(201,222,232,0.42)"/>
     <text x="320" y="79">Federal agencies</text>
-    <rect x="393" y="137" width="140" height="54" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <rect x="393" y="137" width="140" height="54" rx="8" fill="rgba(22,76,107,0.85)" stroke="rgba(201,222,232,0.42)"/>
     <text x="463" y="183">States</text>
-    <rect x="338" y="304" width="140" height="54" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <rect x="338" y="304" width="140" height="54" rx="8" fill="rgba(22,76,107,0.85)" stroke="rgba(201,222,232,0.42)"/>
     <text x="408" y="350">Community orgs</text>
-    <rect x="162" y="304" width="140" height="54" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <rect x="162" y="304" width="140" height="54" rx="8" fill="rgba(22,76,107,0.85)" stroke="rgba(201,222,232,0.42)"/>
     <text x="232" y="350">Academia</text>
-    <rect x="107" y="137" width="140" height="54" rx="8" fill="rgba(11,79,119,0.85)" stroke="rgba(165,227,255,0.4)"/>
+    <rect x="107" y="137" width="140" height="54" rx="8" fill="rgba(22,76,107,0.85)" stroke="rgba(201,222,232,0.42)"/>
     <text x="177" y="183">Utilities</text>
   </g>
   <g fill="none" stroke="var(--wtr-sand)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
@@ -100,27 +90,31 @@ class: text-center
     </g>
   </g>
 </svg>
-</figure>
+</figure> -->
 
 ---
 layout: center
-class: text-center
+class: text-center statement
 ---
 
-# The problem is more fundammental than scale
+# Sharing environmental data often has an issue more fundamental than scaling:
 
-<div v-click class="mt-8 text-4xl font-bold" style="color: var(--wtr-accent)">
-  It's infrastructure.
+<div v-click class="mt-7">
+  <span class="punchline">Infrastructure.</span>
 </div>
 
-<div v-click class="mt-10 max-w-3xl mx-auto muted text-lg">
-  Most organizations already have the data. What they don't have is somebody
-  to keep a database, an API, and a tile server alive for the next ten years.
+<div v-click class="mt-9 max-w-3xl mx-auto text-xl leading-relaxed">
+  Database and API maintenance is expensive, time consuming, and requires expertise.
+</div>
+
+<div v-click class="mt-6 grid grid-cols-2 gap-4 max-w-3xl mx-auto text-left">
+  <div class="card">Researchers and non-profits often don't have these resources long term</div>
+  <div class="card">Government IT policy slows down deployment</div>
 </div>
 
 ---
 
-# The usual way to put data on the web
+# PostGIS is great, but often isn't the right fit for small organizations or ad-hoc projects
 
 <figure class="mt-6">
 <svg viewBox="0 0 900 225" role="img" aria-label="A pipeline from source data through PostGIS, an API server, and a CDN cache. All but the source data must run continuously for years, and the database carries the most upkeep — maintenance and connection pooling." style="width:100%;max-width:760px;height:auto;margin:0 auto;display:block;color:var(--wtr-text)">
@@ -135,10 +129,10 @@ class: text-center
     <line x1="644" y1="80" x2="691" y2="80"/>
   </g>
   <g stroke-width="1.4">
-    <rect x="40" y="25" width="170" height="110" rx="14" fill="rgba(11,79,119,0.7)" stroke="rgba(165,227,255,0.4)"/>
-    <rect x="257" y="25" width="170" height="110" rx="14" fill="rgba(11,79,119,0.92)" stroke="var(--wtr-accent)" stroke-width="2.4"/>
-    <rect x="474" y="25" width="170" height="110" rx="14" fill="rgba(11,79,119,0.7)" stroke="rgba(165,227,255,0.4)"/>
-    <rect x="691" y="25" width="170" height="110" rx="14" fill="rgba(11,79,119,0.7)" stroke="rgba(165,227,255,0.4)"/>
+    <rect x="40" y="25" width="170" height="110" rx="14" fill="rgba(22,76,107,0.7)" stroke="rgba(201,222,232,0.42)"/>
+    <rect x="257" y="25" width="170" height="110" rx="14" fill="rgba(22,76,107,0.92)" stroke="var(--wtr-emphasis)" stroke-width="2.4"/>
+    <rect x="474" y="25" width="170" height="110" rx="14" fill="rgba(22,76,107,0.7)" stroke="rgba(201,222,232,0.42)"/>
+    <rect x="691" y="25" width="170" height="110" rx="14" fill="rgba(22,76,107,0.7)" stroke="rgba(201,222,232,0.42)"/>
   </g>
   <g transform="translate(125,55) scale(1.6)" fill="none" stroke="currentColor" stroke-width="1.4">
     <rect x="-8" y="-9" width="16" height="18" rx="1.5"/>
@@ -147,7 +141,7 @@ class: text-center
     <line x1="-4" y1="2" x2="4" y2="2"/>
     <line x1="-4" y1="6" x2="2" y2="6"/>
   </g>
-  <g transform="translate(342,55) scale(1.6)" fill="none" stroke="var(--wtr-accent)" stroke-width="1.5">
+  <g transform="translate(342,55) scale(1.6)" fill="none" stroke="var(--wtr-emphasis)" stroke-width="1.5">
     <ellipse cx="0" cy="-7" rx="8" ry="3"/>
     <path d="M-8,-7 v10 a8,3 0 0 0 16,0 v-10"/>
     <path d="M-8,-2 a8,3 0 0 0 16,0" opacity="0.6"/>
@@ -168,7 +162,7 @@ class: text-center
   <g style="font-size:15px;fill:var(--wtr-text)" text-anchor="middle">
     <text x="125" y="105">Source</text>
     <text x="125" y="122">data</text>
-    <text x="342" y="113" style="font-size:16px;font-weight:700;fill:var(--wtr-accent)">PostGIS</text>
+    <text x="342" y="113" style="font-size:16px;font-weight:700;fill:var(--wtr-text)">PostGIS</text>
     <text x="559" y="105">API</text>
     <text x="559" y="122">server</text>
     <text x="776" y="105">CDN /</text>
@@ -177,58 +171,77 @@ class: text-center
   <line x1="342" y1="135" x2="342" y2="158" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
   <line x1="559" y1="135" x2="559" y2="158" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
   <line x1="776" y1="135" x2="776" y2="158" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="3 3"/>
-  <rect x="210" y="158" width="641" height="8" rx="4" fill-opacity="0.55" style="fill: var(--wtr-accent)"/>
-  <polygon points="861,155 872,162 861,169" opacity="0.55" style="fill: var(--wtr-accent)"/>
-  <text x="210" y="185" text-anchor="start" style="font-size:14px;fill: var(--wtr-accent)">today</text>
-  <text x="861" y="185" text-anchor="end" style="font-size:14px;fill: var(--wtr-accent)">10 years later</text>
-  <text x="535" y="210" text-anchor="middle" style="font-size:14.5px;fill: var(--wtr-muted)">the database must be patched, pooled, and paged the whole way</text>
+  <rect x="210" y="158" width="641" height="8" rx="4" fill-opacity="0.55" style="fill: var(--wtr-accent-text)"/>
+  <polygon points="861,155 872,162 861,169" opacity="0.55" style="fill: var(--wtr-accent-text)"/>
+  <text x="210" y="185" text-anchor="start" style="font-size:14px;fill: var(--wtr-accent-text)">today</text>
+  <text x="861" y="185" text-anchor="end" style="font-size:14px;fill: var(--wtr-accent-text)">10 years later</text>
 </svg>
 </figure>
 
-<div v-click class="mt-10 grid grid-cols-2 gap-4 text-sm max-w-3xl mx-auto">
+<div v-click class="mt-5 grid grid-cols-2 gap-4 text-base max-w-3xl mx-auto">
   <div class="card card-accent">
     <div class="eyebrow mb-1">Database maintenance</div>
-    Patching, major-version upgrades, certs, backups — someone owns this for the life of the dataset
+    Upgrades, monitoring & backups are time-consuming. Managed DB services are expensive.
   </div>
   <div class="card card-accent">
-    <div class="eyebrow mb-1">Connection pooling</div>
-    Every API replica opens connections against it; sizing and exhausting the pool becomes your job too
+    <div class="eyebrow mb-1">Boundaries to Sharing</div>
+    Many permissions, settings, and export options. Researchers want the simplicity of a shapefile.
   </div>
 </div>
-
 
 
 ---
+layout: center
+class: text-center
+---
 
-# And then the copies drift
+# What we needed for our Hydrological Data Pipelines
 
-<div class="grid grid-cols-2 gap-6 mt-6">
+<div class="grid grid-cols-2 gap-5 mt-12 max-w-4xl mx-auto text-left text-lg">
 
-<div>
+  <div class="card flex items-start gap-3">
+    <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 9 L10 3 L20 7 L18 18 L7 20 Z"/>
+      <circle cx="4" cy="9" r="1.5"/>
+      <circle cx="10" cy="3" r="1.5"/>
+      <circle cx="20" cy="7" r="1.5"/>
+      <circle cx="18" cy="18" r="1.5"/>
+      <circle cx="7" cy="20" r="1.5"/>
+    </svg>
+    <div>Lossless geometries for hydrology analysis</div>
+  </div>
 
-Because the full dataset is too big for the browser, somebody makes a subset:
+  <div class="card flex items-start gap-3">
+    <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <ellipse cx="11" cy="6" rx="7" ry="2.8"/>
+      <path d="M4 6 v10 a7 2.8 0 0 0 14 0 V6"/>
+      <path d="M4 11 a7 2.8 0 0 0 14 0"/>
+      <line x1="3" y1="21" x2="21" y2="3"/>
+    </svg>
+    <div>No database connections or auth to manage</div>
+  </div>
 
-- a simplified GeoJSON for the web map
-- a state-by-state export for partners
-- a "just the mainstems" file for the demo
-- vector tiles baked last quarter
+  <div class="card flex items-start gap-3">
+    <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="6" cy="12" r="2.6"/>
+      <circle cx="18" cy="5.5" r="2.6"/>
+      <circle cx="18" cy="18.5" r="2.6"/>
+      <line x1="8.3" y1="10.7" x2="15.7" y2="6.8"/>
+      <line x1="8.3" y1="13.3" x2="15.7" y2="17.2"/>
+    </svg>
+    <div>Present to clients at the US Geological Survey without copying huge files or managing subsets</div>
+  </div>
+
+  <div class="card flex items-start gap-3">
+    <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <line x1="2.5" y1="20" x2="21.5" y2="20"/>
+      <path d="M6 20 V14 M12 20 V9.5 M18 20 V4.5"/>
+    </svg>
+    <div>Simple scaling for hands-off data pipelines with lots of spatial joins</div>
+  </div>
 
 </div>
 
-<div v-click class="card card-warn">
-<div class="eyebrow mb-2" style="color: var(--wtr-sand)">Six months later</div>
-
-The source is updated. **The subsets are not.**
-
-The map, the API, and the download page now disagree about how many stream reaches exist — and no one can say which is right.
-
-</div>
-
-</div>
-
-<div v-click class="mt-8 text-center text-xl">
-  Every derived copy is a <span v-mark.underline.cyan="3">synchronization bug</span> waiting to happen.
-</div>
 ---
 layout: center
 class: text-center
@@ -240,76 +253,93 @@ class: text-center
   <div class="pipe-box" style="min-width: 9rem">Browser</div>
   <div class="pipe-arrow text-sm">Range: bytes=<br>4096-65535 →</div>
   <div class="pipe-box card-accent" style="min-width: 9rem">
-    One file<br><span class="muted text-xs">S3 / R2 / Azure Blob</span>
+    One file<br><span class="muted text-xs">S3 / R2 / GCS / Azure Blob</span>
   </div>
 </div>
 
-<div v-click class="mt-12 grid grid-cols-3 gap-4 text-sm max-w-4xl mx-auto">
+<div v-click class="mt-12 grid grid-cols-3 gap-4 text-md max-w-4xl mx-auto">
   <div class="card">Object storage already speaks <strong>HTTP range requests</strong></div>
   <div class="card">The format puts a <strong>spatial index in the file</strong></div>
   <div class="card">So the client fetches <strong>only the bytes it needs</strong></div>
 </div>
 
-<div v-click class="mt-10 text-lg muted">
-  No database. No API process. No autoscaling group. Just a bucket and a CDN.
+<div v-click class="mt-10 text-xl muted">
+  No database. No API process. Just a bucket and a CDN.
 </div>
 
 ---
+class: text-center
+---
 
-# FlatGeobuf
+# Two options for vector geometries with lossless encoding
 
-<div class="grid grid-cols-2 gap-8 mt-4">
-
-<div>
-
-A single binary file: FlatBuffers-encoded features with a **packed Hilbert R-tree** written
-into the head of the file.
-
-<div class="mt-6 space-y-2">
-  <div class="card flex items-center gap-3">
-    <span class="eyebrow" style="min-width: 4.5rem">Request 1</span>
-    <span class="text-sm">Header — schema, CRS, feature count</span>
-  </div>
-  <div class="card flex items-center gap-3">
-    <span class="eyebrow" style="min-width: 4.5rem">Request 2</span>
-    <span class="text-sm">Walk the R-tree for your bounding box</span>
-  </div>
-  <div class="card card-accent flex items-center gap-3">
-    <span class="eyebrow" style="min-width: 4.5rem">Request 3</span>
-    <span class="text-sm">Fetch just those feature byte ranges</span>
-  </div>
+<div class="text-lg muted mt-1">
+Both just a file on object storage.
 </div>
 
+<div class="grid grid-cols-2 gap-8 mt-10">
+
+<div>
+  <div class="flex items-center justify-center gap-3">
+    <img src="/fgb.svg" alt="" class="format-logo" style="height: 3.1rem" />
+    <h2 class="!m-0">FlatGeobuf</h2>
+  </div>
+  <div class="card card-accent mt-5 text-left">
+    <div class="eyebrow mb-2">Packed Hilbert R-tree</div>
+    A packed hilbert r-tree index in the head of the file - optimized for fast bbox queries
+  </div>
 </div>
 
 <div>
-
-<div class="eyebrow mb-2">Why it fits water data</div>
-
-- **Streamable** — features arrive and render progressively
-- **Lossless** — full geometry, full attributes, no tile generalization
-- **Boring to host** — static file + CORS + range support
-- **Universally readable** — GDAL/OGR, QGIS, and a small JS library
-
-<div v-click class="card card-accent mt-6 text-sm">
-The spatial index is the part you would otherwise have paid a database to hold.
-</div>
-
+  <div class="flex items-center justify-center gap-3">
+    <img src="/parquet.svg" alt="" class="format-logo" />
+    <h2 class="!m-0">GeoParquet</h2>
+  </div>
+  <div class="card card-accent mt-5 text-left">
+    <div class="eyebrow mb-2">Row group metadata</div>
+    Min/max statistics on <em>any</em> column. No R-Tree index for geometry, but not always needed.
+  </div>
+  <div class="card card-warn mt-4 mx-auto text-sm text-left" style="width: fit-content">
+    Harder to optimize, but more flexible for analytics
+  </div>
 </div>
 
 </div>
 
 ---
+class: text-center
+---
 
-# The same file, two very different consumers
+# What worked for us
+
+<div class="flex items-center justify-center gap-4 mt-6">
+  <img src="/fgb.svg" alt="" class="format-logo" style="height: 3.6rem" />
+  <span class="punchline">FlatGeobuf</span>
+</div>
+
+<div class="grid grid-cols-2 gap-5 mt-12 max-w-4xl mx-auto text-left">
+  <div class="card">
+    <div class="eyebrow mb-1">Fewer dependencies for readers</div>
+    A small JS library or GDAL — far less to pull in than the Parquet stack
+  </div>
+  <div class="card">
+    <div class="eyebrow mb-1">Less to tune</div>
+    No row group sizing or compression settings to get right, and the packed Hilbert
+    R-tree is hard to beat
+  </div>
+</div>
+
+---
+
+# Using FlatGeobuf with two very different consumers
 
 <div class="grid grid-cols-2 gap-6 mt-6">
 
-```ts {all|3-4|6-8}
-// Browser: draw what's in the viewport
+```ts
+// Browser-based visualization
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js'
 
-const url = 'https://reference.geoconnex.us/catchments.fgb'
+const url = 'https://storage.googleapis.com/national-hydrologic-geospatial-fabric-reference-hydrofabric/reference_catchments_and_flowlines.fgb'
 const bbox = map.getBounds().toArray().flat()
 
 for await (const feature of deserialize(url, bbox)) {
@@ -317,12 +347,12 @@ for await (const feature of deserialize(url, bbox)) {
 }
 ```
 
-```python {all|3-4}
-# Backend microservice: same URL, same bytes
+```python
+# Notebook-based data analysis
 import geopandas as gpd
 
 gdf = gpd.read_file(
-    "https://reference.geoconnex.us/catchments.fgb",
+    "https://storage.googleapis.com/national-hydrologic-geospatial-fabric-reference-hydrofabric/reference_catchments_and_flowlines.fgb",
     bbox=(-105.1, 39.6, -104.7, 39.9),
 )
 ```
@@ -330,66 +360,24 @@ gdf = gpd.read_file(
 </div>
 
 <div v-click class="mt-6 card card-accent text-center">
-  One artifact is the map layer <strong>and</strong> the service dependency.
-  There is no "web version" to keep in sync, because there is no second copy.
+  We can serve 2.7 million catchment polygons from the National Hydrologic Geospatial Fabric Reference Hydrofabric dataset using the same file.
 </div>
 
-
----
-
-# Geoconnex, in practice: one file, not one copy per service
-
-<div class="grid grid-cols-3 gap-4 mt-8">
-  <div class="card">
-    <div class="stat-num">2.7M</div>
-    <div class="text-sm mt-1">NHDPlus V2 catchments — the whole country in one file</div>
-  </div>
-  <div class="card">
-    <div class="stat-num">All</div>
-    <div class="text-sm mt-1">Mainstem rivers in the United States, same treatment</div>
-  </div>
-  <div class="card card-accent">
-    <div class="stat-num">0</div>
-    <div class="text-sm mt-1">Database connections to open, pool, or exhaust</div>
-  </div>
-</div>
-
-<div class="grid grid-cols-2 gap-6 mt-10">
-
-<div v-click>
-<div class="eyebrow mb-2">Internal microservices read the same file</div>
-
-- Every Geoconnex reference-feature microservice fetches from the same `.fgb`, not a private copy or its own DB
-- No connection pools, no query load to capacity-plan around — just HTTP range requests
-- The public map and `ogr2ogr` on someone's laptop hit the exact same bytes
-
-</div>
-
-<div v-click>
-<div class="eyebrow mb-2">Reducing duplication</div>
-
-- One canonical file instead of a database per service, each with its own drift
-- Scaling is copying: another CDN edge, another replica — no schema, no migrations
-- Update the file once and every consumer, internal or external, sees it
-
-</div>
-
-</div>
 
 ---
 layout: full
 class: p-0 overflow-hidden
+hideLogo: true
 ---
 
 <div class="w-full h-full flex flex-col">
-  <div class="px-6 pt-4 pb-2 flex items-baseline gap-4">
-    <h2 class="!m-0 !text-2xl">Live: range requests against a 2.7M-feature file</h2>
+  <div class="px-6 pt-2 pb-2 flex items-baseline gap-4">
     <a href="https://colton.place/flatgeobuf-viewer/" target="_blank" class="text-sm muted !border-0">
       colton.place/flatgeobuf-viewer
     </a>
   </div>
   <iframe
-    src="https://colton.place/flatgeobuf-viewer/"
+    src="https://colton.place/flatgeobuf-viewer/?remote_url=https%3A%2F%2Fstorage.googleapis.com%2Fnational-hydrologic-geospatial-fabric-reference-hydrofabric%2Freference_catchments_and_flowlines.fgb&bbox=-102.192304%2C+40.820678%2C+-101.926099%2C+41.022213"
     class="flex-1 w-full border-0"
     title="FlatGeobuf viewer"
     loading="lazy"
@@ -398,158 +386,60 @@ class: p-0 overflow-hidden
 </div>
 ---
 
-# GeoParquet: when the question is analytical
+# What Changed
 
-<div class="grid grid-cols-2 gap-8 mt-4">
+<div class="mt-8 max-w-5xl mx-auto grid gap-x-5 gap-y-4 items-center text-lg"
+     style="grid-template-columns: 1fr 2.75rem 1fr">
 
-<div>
+  <div class="eyebrow">Before</div>
+  <div></div>
+  <div class="eyebrow">After</div>
 
-Columnar storage, geometry as WKB, plus a `geo` metadata block. The wins come from the
-layout rather than from a spatial index:
+  <div class="card muted">Database connection issues during high-throughput pipelines</div>
+  <div class="pipe-arrow text-center text-2xl">→</div>
+  <div class="card card-accent">Easy scaling on S3</div>
 
-- **Row groups + column chunks** with min/max statistics
-- **Predicate pushdown** — skip whole row groups that can't match
-- **Column pruning** — read 3 columns out of 40
-- **`bbox` covering columns** (GeoParquet 1.1) make spatial filters prunable
+  <div class="card muted">Manual exports that easily became out of sync</div>
+  <div class="pipe-arrow text-center text-2xl">→</div>
+  <div class="card card-accent">One URL providing the dataset's source of truth</div>
 
-</div>
-
-<div>
-
-<div class="eyebrow mb-2">In the browser</div>
-
-DuckDB-WASM (or hyparquet) issues its own HTTP range requests against the same static file.
-
-<div class="card card-accent mt-4 text-sm">
-Aggregate across the entire United States — <em>count, join, group by</em> — with no
-query service in front of it.
-</div>
-
-<div v-click class="card mt-4 text-sm">
-Compression matters here: a national table that is gigabytes as GeoJSON is often a few
-hundred megabytes as Parquet, and you only ever pull a slice of it.
-</div>
+  <div class="card muted">Opaque versioning in the database, or added on the fly into the API response</div>
+  <div class="pipe-arrow text-center text-2xl">→</div>
+  <div class="card card-accent">Provenance metadata contained directly in the FlatGeobuf header</div>
 
 </div>
-
-</div>
-
-
 ---
 
-# Querying the country from a browser tab
+# Next Step: utilizing OCI artifacts
 
-```sql {all|5-6|8-11|13}
--- DuckDB-WASM, running entirely client-side
-INSTALL spatial; LOAD spatial;
-
-SELECT
-  uri,
-  name_at_outlet
-FROM 'https://reference.geoconnex.us/mainstems.parquet'
-WHERE bbox.xmin < -104.7
-  AND bbox.xmax > -105.1
-  AND bbox.ymin <  39.9
-  AND bbox.ymax >  39.6
-ORDER BY length_km DESC
-LIMIT 25;
-```
-
-<div class="grid grid-cols-3 gap-4 mt-6 text-sm">
-  <div v-click class="card">The <code>bbox</code> struct is a plain column — its statistics let DuckDB skip row groups</div>
-  <div v-click class="card">Only the matching row groups and the three named columns are fetched</div>
-  <div v-click class="card card-accent">Result: a national query answered with a few megabytes of range requests</div>
+<div class="text-lg mt-2 max-w-4xl">
+Container registries already store, version, and mirror arbitrary blobs — so a dataset can be
+pushed as an OCI artifact and inherit all of it.
 </div>
 
+<div class="mt-8 flex items-center justify-center gap-5">
+  <div class="pipe-box card-accent" style="min-width: 11rem">
+    catchments.fgb<br><span class="muted text-xs"></span>
+  </div>
+  <div class="pipe-arrow text-sm">oras push →</div>
+  <div class="flex flex-col gap-2">
+    <div class="pipe-box" style="min-width: 15rem">Docker Hub</div>
+    <div class="pipe-box" style="min-width: 15rem">GitHub Container Registry</div>
+    <div class="pipe-box" style="min-width: 15rem">Google Artifact Registry</div>
+  </div>
+</div>
 
----
-
-# Picking between them
-
-| | **FlatGeobuf** | **GeoParquet** |
-|---|---|---|
-| Best at | Fetch features in a bbox, stream + render | Filter, aggregate, join across many rows |
-| Index | Packed Hilbert R-tree in the file | Row-group statistics, `bbox` covering columns |
-| Access pattern | Spatial window → geometries | Analytical query → columns |
-| Browser story | Tiny JS lib, progressive rendering | DuckDB-WASM / hyparquet |
-| Use it for | Map layers, reference geometry | Attribute-heavy analysis, summaries |
-
-<div class="mt-8 grid grid-cols-2 gap-6">
+<div class="mt-8 grid grid-cols-2 gap-5 max-w-4xl mx-auto text-sm">
+  <div class="card">
+    <div class="eyebrow mb-1">Versioning comes for free</div>
+    Tags, digests, and annotations live in the manifest — provenance travels with the data
+  </div>
   <div class="card card-accent">
-    <div class="eyebrow mb-1">Our rule of thumb</div>
-    If a map is going to draw it, FlatGeobuf. If SQL is going to chew on it, GeoParquet.
-  </div>
-  <div v-click class="card">
-    <div class="eyebrow mb-1">Both, often</div>
-    Same source of truth, two encodings, one build step. Still zero servers.
+    <div class="eyebrow mb-1">No single service to depend on</div>
+    The same artifact pushes to any registry, so no one provider owns the dataset
   </div>
 </div>
 
-
----
-
-# The fine print
-
-<div class="grid grid-cols-2 gap-6 mt-6">
-
-<div class="space-y-3">
-  <div class="card">
-    <div class="eyebrow mb-1">Your bucket must cooperate</div>
-    <span class="text-sm">Range requests <em>and</em> CORS headers. Put a CDN in front or every pan pays full latency.</span>
-  </div>
-  <div class="card">
-    <div class="eyebrow mb-1">Writes are whole-file</div>
-    <span class="text-sm">Great for reference data that changes on a release cadence. Bad for a live edit queue.</span>
-  </div>
-</div>
-
-<div class="space-y-3">
-  <div class="card">
-    <div class="eyebrow mb-1">Cache invalidation is now your job</div>
-    <span class="text-sm">Version the object name, or you will serve yesterday's hydrography from the edge.</span>
-  </div>
-  <div class="card">
-    <div class="eyebrow mb-1">Not a replacement for everything</div>
-    <span class="text-sm">Complex server-side joins, auth per feature, or heavy write paths still want a database.</span>
-  </div>
-</div>
-
-</div>
-
-<div v-click class="mt-8 text-center text-lg">
-  The trade is real — you give up query flexibility and buy back <strong>an operations budget</strong>.
-</div>
-
-
----
-
-# What actually changed for us
-
-<div class="grid grid-cols-2 gap-6 mt-8">
-
-<div class="card">
-<div class="eyebrow mb-2">For the team</div>
-
-- One artifact to publish instead of a pipeline to babysit
-- No 3am pages for a service that only serves geometry
-- Storage-shaped costs instead of compute-shaped costs
-
-</div>
-
-<div class="card card-accent">
-<div class="eyebrow mb-2">For everyone else</div>
-
-- The map draws the *real* geometry, not a stale simplification
-- Anyone can point QGIS or GDAL at the same URL
-- Frontend and backend can never disagree about the data
-
-</div>
-
-</div>
-
-<div v-click class="mt-10 text-center text-xl">
-  Less data to maintain, and a better experience at the other end of the wire.
-</div>
 
 
 ---
@@ -557,14 +447,17 @@ layout: center
 class: text-center
 ---
 
-# Take one thing away
+# Thank you! Any Questions?
 
-<div class="mt-8 text-2xl max-w-3xl mx-auto">
-  Before you provision a database to publish geospatial data,
-  <span v-mark.circle.cyan="1" class="px-1">check whether a file in a bucket will do</span>.
+<div class="mt-6 text-xl">
+  Colton Loftus · Center for Geospatial Solutions
 </div>
 
-<div class="mt-14 grid grid-cols-3 gap-4 text-sm max-w-4xl mx-auto">
+<div class="mt-2 text-lg">
+  <a href="mailto:cloftus@lincolninst.edu">cloftus@lincolninst.edu</a>
+</div>
+
+<div class="mt-12 grid grid-cols-3 gap-4 text-sm max-w-4xl mx-auto">
   <div class="card">
     <div class="eyebrow mb-1">Geoconnex</div>
     <a href="https://geoconnex.us" target="_blank">geoconnex.us</a>
@@ -580,6 +473,6 @@ class: text-center
   </div>
 </div>
 
-<div class="mt-14 muted">
-  Thanks — and thanks to the U.S. Geological Survey for funding this work.
+<div class="mt-12 muted">
+  Thanks to the U.S. Geological Survey for funding this work.
 </div>
