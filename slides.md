@@ -116,7 +116,7 @@ class: text-center statement
 class: no-title-rule
 ---
 
-# PostGIS is great, but often isn't the right fit for small organizations or ad-hoc projects
+# PostGIS is great, but isn't always the right fit for projects with resource constraints
 
 <figure class="mt-6">
 <svg viewBox="0 0 900 225" role="img" aria-label="A pipeline from source data through PostGIS, an API server, and a CDN cache. All but the source data must run continuously for years, and the database carries the most upkeep — maintenance and connection pooling." style="width:100%;max-width:760px;height:auto;margin:0 auto;display:block;color:var(--wtr-text)">
